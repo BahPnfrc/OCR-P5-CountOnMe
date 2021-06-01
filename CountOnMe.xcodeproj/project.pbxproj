@@ -77,6 +77,7 @@
 		0BD2B15B26664795000D42E5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1FA43BD2224E569900F565CB /* AppDelegate.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -84,6 +85,8 @@
 		0BD2B15C2666479C000D42E5 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */,
+				1FA43BD6224E569900F565CB /* Main.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -91,6 +94,7 @@
 		0BD2B15D266647A4000D42E5 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				1FA43BD4224E569900F565CB /* ViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -121,11 +125,7 @@
 				0BD2B15B26664795000D42E5 /* Model */,
 				0BD2B15C2666479C000D42E5 /* View */,
 				0BD2B15D266647A4000D42E5 /* Controller */,
-				1FA43BD2224E569900F565CB /* AppDelegate.swift */,
-				1FA43BD4224E569900F565CB /* ViewController.swift */,
-				1FA43BD6224E569900F565CB /* Main.storyboard */,
 				1FA43BD9224E569A00F565CB /* Assets.xcassets */,
-				1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */,
 				1FA43BDE224E569A00F565CB /* Info.plist */,
 			);
 			path = CountOnMe;
