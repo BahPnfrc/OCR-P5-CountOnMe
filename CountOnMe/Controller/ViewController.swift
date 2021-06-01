@@ -9,53 +9,81 @@
 import UIKit
 
 class ViewController: UIViewController {
-    @IBOutlet weak var textView: UITextView!
+    
+    // MARK: - @IBOUTLET
+    
+    @IBOutlet weak var display: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
+    @IBOutlet var operationButtons: [UIButton]!
+    
+    // MARK: - PROPERTY
     
     var elements: [String] {
-        return textView.text.split(separator: " ").map { "\($0)" }
+        return display.text.split(separator: " ").map { "\($0)" }
     }
     
     // Error check computed variables
-    var expressionIsCorrect: Bool {
-        return elements.last != "+" && elements.last != "-"
-    }
-    
     var expressionHaveEnoughElement: Bool {
         return elements.count >= 3
     }
     
+    var expressionIsCorrect: Bool {
+        return !lastElementIsAnOperand()
+    }
+    
     var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-"
+        return !lastElementIsAnOperand()
+    }
+    
+    private func lastElementIsAnOperand() -> Bool {
+        for operand in EnumOperand.allCases {
+            let sign = operand.rawValue
+            if self.elements.last == sign { return true }
+        }
+        return false
     }
     
     var expressionHaveResult: Bool {
-        return textView.text.firstIndex(of: "=") != nil
+        return display.text.firstIndex(of: "=") != nil
     }
+    
+    // MARK: - CYCLE
     
     // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        paint(display as Any)
+        for button in numberButtons { paint(button) }
+        for button in operationButtons { paint(button)}
+    }
+    
+    func paint(_ any: Any) {
+        guard let view = any as? UIView else { return }
+        view.layer.borderColor = UIColor.black.cgColor
+        view.layer.borderWidth = 2
+        view.layer.cornerRadius = 5
+        view.layer.shadowRadius = 5
+        view.layer.shadowColor = UIColor.gray.cgColor
     }
     
     
-    // View actions
+    // MARK: - @IBActions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         guard let numberText = sender.title(for: .normal) else {
             return
         }
         
         if expressionHaveResult {
-            textView.text = ""
+            display.text = ""
         }
         
-        textView.text.append(numberText)
+        display.text.append(numberText)
     }
     
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
         if canAddOperator {
-            textView.text.append(" + ")
+            display.text.append(" \(EnumOperand.isAddition.rawValue) ")
         } else {
             let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
@@ -65,14 +93,31 @@ class ViewController: UIViewController {
     
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
         if canAddOperator {
-            textView.text.append(" - ")
+            display.text.append(" \(EnumOperand.isSoustraction.rawValue) ")
         } else {
             let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             self.present(alertVC, animated: true, completion: nil)
         }
     }
-
+    
+    
+    @IBAction func tappedMultiplicationButton(_ sender: Any) {
+        if canAddOperator {
+            display.text.append(" \(EnumOperand.isMultiplication.rawValue) ")
+        } else {
+        }
+        
+    }
+    
+    @IBAction func tappedDivisionButton(_ sender: Any) {
+        if canAddOperator {
+            display.text.append(" \(EnumOperand.isDivision.rawValue) ")
+        } else {
+        }
+    }
+    
+    
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         guard expressionIsCorrect else {
             let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
@@ -106,7 +151,7 @@ class ViewController: UIViewController {
             operationsToReduce.insert("\(result)", at: 0)
         }
         
-        textView.text.append(" = \(operationsToReduce.first!)")
+        display.text.append(" = \(operationsToReduce.first!)")
     }
 
 }
