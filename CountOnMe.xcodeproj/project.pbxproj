@@ -74,6 +74,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0BD2B15B26664795000D42E5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		0BD2B15C2666479C000D42E5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0BD2B15D266647A4000D42E5 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		1FA43BC6224E569900F565CB = {
 			isa = PBXGroup;
 			children = (
@@ -97,6 +118,9 @@
 		1FA43BD1224E569900F565CB /* CountOnMe */ = {
 			isa = PBXGroup;
 			children = (
+				0BD2B15B26664795000D42E5 /* Model */,
+				0BD2B15C2666479C000D42E5 /* View */,
+				0BD2B15D266647A4000D42E5 /* Controller */,
 				1FA43BD2224E569900F565CB /* AppDelegate.swift */,
 				1FA43BD4224E569900F565CB /* ViewController.swift */,
 				1FA43BD6224E569900F565CB /* Main.storyboard */,
