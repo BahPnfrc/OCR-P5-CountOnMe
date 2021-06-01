@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -20,13 +21,43 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="1+1=2" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="T2H-yn-nBB">
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Cjc-jP-inY" userLabel="Display">
                                 <rect key="frame" x="16" y="24" width="288" height="144"/>
+                                <subviews>
+                                    <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WSx-mm-bx7">
+                                        <rect key="frame" x="0.0" y="0.0" width="10" height="144"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="10" id="a64-co-y0c"/>
+                                        </constraints>
+                                    </view>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="oiJ-jD-4a1">
+                                        <rect key="frame" x="15" y="0.0" width="258" height="144"/>
+                                        <subviews>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="T2H-yn-nBB" userLabel="Input">
+                                                <rect key="frame" x="0.0" y="0.0" width="258" height="84"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mCn-sh-UfY" userLabel="Output">
+                                                <rect key="frame" x="0.0" y="84" width="258" height="60"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QEo-8J-ckt">
+                                        <rect key="frame" x="278" y="0.0" width="10" height="144"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="10" id="YO2-mE-KX3"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.57461684940000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="60"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                            </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="top" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="isI-Gg-Iye" userLabel="Buttons">
                                 <rect key="frame" x="16" y="192" width="288" height="168"/>
                                 <subviews>
@@ -260,6 +291,9 @@
                                                 <state key="normal" title="AC">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="tappedResetButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="bvU-md-G07"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -270,21 +304,23 @@
                         <color key="backgroundColor" red="0.87536688539999996" green="0.84808511389999996" blue="0.83804947389999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="isI-Gg-Iye" firstAttribute="bottom" secondItem="AWJ-Vl-uau" secondAttribute="bottom" multiplier="0.75" id="9PY-4L-lJK"/>
-                            <constraint firstItem="T2H-yn-nBB" firstAttribute="bottom" secondItem="AWJ-Vl-uau" secondAttribute="bottom" multiplier="0.35" id="Hf7-BE-96I"/>
+                            <constraint firstItem="Cjc-jP-inY" firstAttribute="trailing" secondItem="AWJ-Vl-uau" secondAttribute="trailing" multiplier="0.95" id="EeI-FA-IPU"/>
+                            <constraint firstItem="Cjc-jP-inY" firstAttribute="bottom" secondItem="AWJ-Vl-uau" secondAttribute="bottom" multiplier="0.35" id="FoR-Qe-bA8"/>
                             <constraint firstItem="ogr-Aw-e1h" firstAttribute="bottom" secondItem="AWJ-Vl-uau" secondAttribute="bottom" multiplier="0.95" id="JgC-Td-nwz"/>
                             <constraint firstItem="isI-Gg-Iye" firstAttribute="leading" secondItem="AWJ-Vl-uau" secondAttribute="trailing" multiplier="0.05" id="NrQ-8E-NB6"/>
+                            <constraint firstItem="Cjc-jP-inY" firstAttribute="leading" secondItem="AWJ-Vl-uau" secondAttribute="trailing" multiplier="0.05" id="Tmv-ye-6DT"/>
                             <constraint firstItem="ogr-Aw-e1h" firstAttribute="top" secondItem="AWJ-Vl-uau" secondAttribute="bottom" multiplier="0.8" id="UhX-WR-Q0Y"/>
                             <constraint firstItem="ogr-Aw-e1h" firstAttribute="trailing" secondItem="AWJ-Vl-uau" secondAttribute="trailing" multiplier="0.95" id="Wbu-zw-e5F"/>
-                            <constraint firstItem="T2H-yn-nBB" firstAttribute="leading" secondItem="AWJ-Vl-uau" secondAttribute="trailing" multiplier="0.05" id="e5V-RK-4Dm"/>
                             <constraint firstItem="ogr-Aw-e1h" firstAttribute="leading" secondItem="AWJ-Vl-uau" secondAttribute="trailing" multiplier="0.05" id="eMO-lU-lUj"/>
-                            <constraint firstItem="T2H-yn-nBB" firstAttribute="trailing" secondItem="AWJ-Vl-uau" secondAttribute="trailing" multiplier="0.95" id="lhH-oW-VIG"/>
                             <constraint firstItem="isI-Gg-Iye" firstAttribute="top" secondItem="AWJ-Vl-uau" secondAttribute="bottom" multiplier="0.4" id="o8W-48-KIe"/>
-                            <constraint firstItem="T2H-yn-nBB" firstAttribute="top" secondItem="AWJ-Vl-uau" secondAttribute="bottom" multiplier="0.05" id="p4n-wj-5ac"/>
+                            <constraint firstItem="Cjc-jP-inY" firstAttribute="top" secondItem="AWJ-Vl-uau" secondAttribute="bottom" multiplier="0.05" id="qQP-1u-poA"/>
                             <constraint firstItem="isI-Gg-Iye" firstAttribute="trailing" secondItem="AWJ-Vl-uau" secondAttribute="trailing" multiplier="0.95" id="t0o-Ye-fTg"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="display" destination="T2H-yn-nBB" id="yqe-Yo-Sag"/>
+                        <outlet property="display" destination="Cjc-jP-inY" id="9nq-2Q-Noi"/>
+                        <outlet property="input" destination="T2H-yn-nBB" id="hNT-sl-ikq"/>
+                        <outlet property="output" destination="mCn-sh-UfY" id="Otg-GS-coV"/>
                         <outletCollection property="numberButtons" destination="YD6-ul-r3f" collectionClass="NSMutableArray" id="c8W-uL-ZHg"/>
                         <outletCollection property="numberButtons" destination="Raa-av-x4n" collectionClass="NSMutableArray" id="P52-Zx-bMS"/>
                         <outletCollection property="numberButtons" destination="jd7-ld-hSU" collectionClass="NSMutableArray" id="U3Z-si-yYe"/>
@@ -308,4 +344,9 @@
             <point key="canvasLocation" x="87" y="220"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

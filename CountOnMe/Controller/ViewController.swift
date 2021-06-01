@@ -12,14 +12,29 @@ class ViewController: UIViewController {
     
     // MARK: - @IBOUTLET
     
-    @IBOutlet weak var display: UITextView!
+    @IBOutlet weak var display: UIStackView!
+    @IBOutlet weak var input: UITextView!
+    @IBOutlet weak var output: UILabel!
     @IBOutlet var numberButtons: [UIButton]!
     @IBOutlet var operationButtons: [UIButton]!
     
     // MARK: - PROPERTY
     
+    var result: String? = nil {
+        didSet {
+            if let any = result {
+                output.isHidden = false
+                output.text = any
+            } else {
+                output.isHidden = true
+                output.text = ""
+            }
+            
+        }
+    }
+    
     var elements: [String] {
-        return display.text.split(separator: " ").map { "\($0)" }
+        return input.text.split(separator: " ").map { "\($0)" }
     }
     
     // Error check computed variables
@@ -44,7 +59,7 @@ class ViewController: UIViewController {
     }
     
     var expressionHaveResult: Bool {
-        return display.text.firstIndex(of: "=") != nil
+        return output.text?.contains("=") ?? false
     }
     
     // MARK: - CYCLE
@@ -58,13 +73,11 @@ class ViewController: UIViewController {
         for button in operationButtons { paint(button)}
     }
     
-    func paint(_ any: Any) {
-        guard let view = any as? UIView else { return }
+    func paint(_ anyItem: Any) {
+        guard let view = anyItem as? UIView else { return }
         view.layer.borderColor = UIColor.black.cgColor
         view.layer.borderWidth = 2
         view.layer.cornerRadius = 5
-        view.layer.shadowRadius = 5
-        view.layer.shadowColor = UIColor.gray.cgColor
     }
     
     
@@ -75,48 +88,47 @@ class ViewController: UIViewController {
         }
         
         if expressionHaveResult {
-            display.text = ""
+            input.text = ""
         }
         
-        display.text.append(numberText)
+        input.text.append(numberText)
+    }
+    
+    private func tappedShowError() {
+        let alertVC = UIAlertController(title: "Erreur", message: "Un opérateur est déja présent", preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        self.present(alertVC, animated: true, completion: nil)
     }
     
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
         if canAddOperator {
-            display.text.append(" \(EnumOperand.isAddition.rawValue) ")
-        } else {
-            let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            self.present(alertVC, animated: true, completion: nil)
-        }
+            input.text.append(" \(EnumOperand.isAddition.rawValue) ")
+        } else { tappedShowError() }
     }
     
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
         if canAddOperator {
-            display.text.append(" \(EnumOperand.isSoustraction.rawValue) ")
-        } else {
-            let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            self.present(alertVC, animated: true, completion: nil)
-        }
+            input.text.append(" \(EnumOperand.isSoustraction.rawValue) ")
+        } else { tappedShowError() }
     }
     
     
     @IBAction func tappedMultiplicationButton(_ sender: Any) {
         if canAddOperator {
-            display.text.append(" \(EnumOperand.isMultiplication.rawValue) ")
-        } else {
-        }
-        
+            input.text.append(" \(EnumOperand.isMultiplication.rawValue) ")
+        } else { tappedShowError() }
     }
     
     @IBAction func tappedDivisionButton(_ sender: Any) {
         if canAddOperator {
-            display.text.append(" \(EnumOperand.isDivision.rawValue) ")
-        } else {
-        }
+            input.text.append(" \(EnumOperand.isDivision.rawValue) ")
+        } else { tappedShowError() }
     }
     
+    @IBAction func tappedResetButton(_ sender: Any) {
+        input.text = ""
+        result = nil
+    }
     
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         guard expressionIsCorrect else {
@@ -141,17 +153,21 @@ class ViewController: UIViewController {
             let right = Int(operationsToReduce[2])!
             
             let result: Int
+            
+            
             switch operand {
-            case "+": result = left + right
-            case "-": result = left - right
-            default: fatalError("Unknown operator !")
+            case EnumOperand.isAddition.rawValue : result = left + right
+            case EnumOperand.isSoustraction.rawValue: result = left - right
+            case EnumOperand.isMultiplication.rawValue: result = left * right
+            case EnumOperand.isDivision.rawValue: result = left / right
+            default: fatalError("Opérateur inconnu !")
             }
             
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
             operationsToReduce.insert("\(result)", at: 0)
         }
         
-        display.text.append(" = \(operationsToReduce.first!)")
+        result = " = \(operationsToReduce.first!)"
     }
 
 }
