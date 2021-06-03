@@ -12,65 +12,38 @@ class ViewController: UIViewController {
     
     // MARK: - @IBOUTLET
     
-    @IBOutlet weak var display: UIStackView!
-    @IBOutlet weak var input: UITextView!
-    @IBOutlet weak var output: UILabel!
-    @IBOutlet var numberButtons: [UIButton]!
-    @IBOutlet var operationButtons: [UIButton]!
+    @IBOutlet weak var UIdisplay: UIStackView!
+    @IBOutlet weak var UIinput: UITextView!
+    @IBOutlet weak var UIoutput: UILabel!
+    @IBOutlet var UInumberButtons: [UIButton]!
+    @IBOutlet var UIoperationButtons: [UIButton]!
     
     // MARK: - PROPERTY
     
     var result: String? = nil {
         didSet {
             if let any = result {
-                output.isHidden = false
-                output.text = any
+                UIoutput.isHidden = false
+                UIoutput.text = any
             } else {
-                output.isHidden = true
-                output.text = ""
+                UIoutput.isHidden = true
+                UIoutput.text = ""
             }
-            
         }
-    }
-    
-    var elements: [String] {
-        return input.text.split(separator: " ").map { "\($0)" }
-    }
-    
-    // Error check computed variables
-    var expressionHaveEnoughElement: Bool {
-        return elements.count >= 3
-    }
-    
-    var expressionIsCorrect: Bool {
-        return !lastElementIsAnOperand()
-    }
-    
-    var canAddOperator: Bool {
-        return !lastElementIsAnOperand()
-    }
-    
-    private func lastElementIsAnOperand() -> Bool {
-        for operand in EnumOperand.allCases {
-            let sign = operand.rawValue
-            if self.elements.last == sign { return true }
-        }
-        return false
     }
     
     var expressionHaveResult: Bool {
-        return output.text?.contains("=") ?? false
+        return UIoutput.text?.contains("=") ?? false
     }
     
     // MARK: - CYCLE
     
-    // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        paint(display as Any)
-        for button in numberButtons { paint(button) }
-        for button in operationButtons { paint(button)}
+        paint(UIdisplay as Any)
+        for button in UInumberButtons { paint(button) }
+        for button in UIoperationButtons { paint(button)}
     }
     
     func paint(_ anyItem: Any) {
@@ -80,18 +53,15 @@ class ViewController: UIViewController {
         view.layer.cornerRadius = 5
     }
     
+    // MARK: - @IBACTION
     
-    // MARK: - @IBActions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
-        guard let numberText = sender.title(for: .normal) else {
-            return
-        }
+        guard let numberText = sender.title(for: .normal) else { return }
         
         if expressionHaveResult {
-            input.text = ""
+            UIinput.text = ""
         }
-        
-        input.text.append(numberText)
+        UIinput.text.append(numberText)
     }
     
     private func tappedShowError() {
@@ -101,73 +71,74 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
-        if canAddOperator {
-            input.text.append(" \(EnumOperand.isAddition.rawValue) ")
-        } else { tappedShowError() }
+        operandButtonWasTapped(Operand.addition)
     }
     
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-        if canAddOperator {
-            input.text.append(" \(EnumOperand.isSoustraction.rawValue) ")
-        } else { tappedShowError() }
+        operandButtonWasTapped(Operand.substraction)
     }
     
-    
     @IBAction func tappedMultiplicationButton(_ sender: Any) {
-        if canAddOperator {
-            input.text.append(" \(EnumOperand.isMultiplication.rawValue) ")
-        } else { tappedShowError() }
+        operandButtonWasTapped(Operand.multiplication)
     }
     
     @IBAction func tappedDivisionButton(_ sender: Any) {
-        if canAddOperator {
-            input.text.append(" \(EnumOperand.isDivision.rawValue) ")
+        operandButtonWasTapped(Operand.division)
+    }
+    
+    func getCurrentExpression() -> Expression {
+        return Expression(UIinput.text)
+    }
+    
+    func operandButtonWasTapped(_ operand: Operand) {
+        let expression = getCurrentExpression()
+        if expression.expressionIsCorrect {
+            UIinput.text.append(" \(operand.rawValue) ")
         } else { tappedShowError() }
     }
     
     @IBAction func tappedResetButton(_ sender: Any) {
-        input.text = ""
+        UIinput.text = ""
         result = nil
     }
     
     @IBAction func tappedEqualButton(_ sender: UIButton) {
-        guard expressionIsCorrect else {
-            let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            return self.present(alertVC, animated: true, completion: nil)
-        }
+
+        let expression = getCurrentExpression()
+        var elements = expression.elements
         
-        guard expressionHaveEnoughElement else {
-            let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            return self.present(alertVC, animated: true, completion: nil)
-        }
-        
-        // Create local copy of operations
-        var operationsToReduce = elements
-        
-        // Iterate over operations while an operand still here
-        while operationsToReduce.count > 1 {
-            let left = Int(operationsToReduce[0])!
-            let operand = operationsToReduce[1]
-            let right = Int(operationsToReduce[2])!
+        while elements.count > 1 {
             
-            let result: Int
+            guard expression.expressionIsCorrect
+            else { fatalError() }
             
+            var operandIndex: Int
+            if let multiplicationIndex = elements.firstIndex(of: Operand.multiplication.rawValue) {
+                operandIndex = multiplicationIndex
+            } else if let divisionIndex = elements.firstIndex(of: Operand.division.rawValue) {
+                operandIndex = divisionIndex
+            } else { operandIndex = 1 }
             
-            switch operand {
-            case EnumOperand.isAddition.rawValue : result = left + right
-            case EnumOperand.isSoustraction.rawValue: result = left - right
-            case EnumOperand.isMultiplication.rawValue: result = left * right
-            case EnumOperand.isDivision.rawValue: result = left / right
-            default: fatalError("Opérateur inconnu !")
+            let operand = elements[operandIndex]
+            guard let leftItem = Float(elements[operandIndex - 1]),
+                  let rightItem = Float(elements[operandIndex + 1])
+            else { fatalError() }
+            
+            let operation = Operation(leftItem, operand, rightItem)
+            let result = Operating.getResultOf(operation)
+            
+            if let number = result.Result {
+                let newValue = [String(number)]
+                let oldValues = operandIndex - 1...operandIndex + 1
+                elements.replaceSubrange(oldValues, with: newValue)
+            } else if let error = result.Error {
+                UIoutput.text = error.rawValue
+            } else {
+                //
             }
-            
-            operationsToReduce = Array(operationsToReduce.dropFirst(3))
-            operationsToReduce.insert("\(result)", at: 0)
         }
         
-        result = " = \(operationsToReduce.first!)"
+        result = " = \(elements.first!)"
     }
 
 }
