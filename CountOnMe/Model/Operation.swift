@@ -20,16 +20,6 @@ struct Operation {
     var rightItem: Float
     var operand: Operand
     
-//    init(_ leftItem: String, _ operand: String, _ rightItem: String) {
-//        guard let leftItem = Float(leftItem), let rightItem = Float(rightItem)
-//        else { fatalError("Fatal error while parsing for item") }
-//        guard let operand = Operand.allCases.first(where: { $0.rawValue == operand })
-//        else { fatalError("Fatal error while parsing for operand") }
-//        self.leftItem = leftItem
-//        self.rightItem = rightItem
-//        self.operand = operand
-//    }
-    
     init(_ leftItem: Float, _ operand: String, _ rightItem: Float) {
         guard let operand = Operand.allCases.first(where: { $0.rawValue == operand })
         else { fatalError("Fatal error while parsing for operand") }

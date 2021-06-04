@@ -9,13 +9,11 @@
 import Foundation
 
 enum Error: String {
-    case divisionByZero = "Erreur : Division par 0"
+    case divisionByZero = "Impossible de diviser par 0"
 }
 
-class Operating {
-    
+class Computer {
     static func getResultOf(_ operation: Operation) -> (Result: Float?, Error: Error?) {
-        
         switch operation.operand {
         case Operand.addition: return (operation.leftItem + operation.rightItem, nil)
         case Operand.substraction: return (operation.leftItem - operation.rightItem, nil)

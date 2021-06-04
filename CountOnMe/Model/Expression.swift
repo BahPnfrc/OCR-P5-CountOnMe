@@ -14,7 +14,7 @@ class Expression {
     
     private var rawExpression: String
     
-    init(_ rawExpression: String) {
+    init(of rawExpression: String) {
         self.rawExpression = rawExpression
     }
     
@@ -22,31 +22,35 @@ class Expression {
        return rawExpression.split(separator: " ").map { "\($0)" }
     }
     
-    var expressionIsCorrect: Bool {
-        return hasEnoughElement()
+    var isCorrect: Bool {
+        return isSingleNumber()
+            || hasEnoughElement()
             && isWellFormated()
             && lastElementIsNumber()
     }
     
     // MARK: - Checks
     
+    func isSingleNumber() -> Bool {
+        return self.elements.count == 1 && Float(elements[0]) != nil
+    }
+    
     func hasEnoughElement() -> Bool {
         // Odd number of elements is required
         let elements = self.elements.count
-        return elements > 2 && (elements - 3) % 2 == 0
+        return elements > 2 && (elements - 3).isEven
     }
     
     func isWellFormated () -> Bool {
         let elements = self.elements
         for index in 0...elements.count - 1 {
-            switch index % 2 {
-            case 0: // Even elements must be numbers
+            switch index.isEven {
+            case true: // Even elements must be numbers
                 guard Float(elements[index]) != nil
                 else { return false }
-            case 1: // Odd elements must be operands
+            case false: // Odd elements must be operands
                 guard Operand.allCases.first(where: { $0.rawValue == elements[index] }) != nil
                 else { return false }
-            default: return false
             }
         }
         return true
@@ -62,5 +66,14 @@ class Expression {
     
     func lastElementIsNumber() -> Bool {
         return !lastElementIsOperand()
+    }
+}
+
+extension Int {
+    var isEven: Bool {
+        return abs(self) % 2 == 0
+    }
+    var isOdd: Bool {
+        return abs(self) % 2 == 1
     }
 }
