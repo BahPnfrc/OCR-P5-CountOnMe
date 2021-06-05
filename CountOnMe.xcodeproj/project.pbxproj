@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B2ABAC1266BF741000071FF /* CountOnMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2ABAC0266BF741000071FF /* CountOnMe.swift */; };
 		0B42CDB926698C0600A4D6AC /* ExpressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B42CDB826698C0600A4D6AC /* ExpressionTests.swift */; };
-		0BD2B1622668E5F6000D42E5 /* Computer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD2B1612668E5F6000D42E5 /* Computer.swift */; };
 		0BD2B16426694C16000D42E5 /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD2B16326694C16000D42E5 /* Expression.swift */; };
 		0BD2B16626696E94000D42E5 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD2B16526696E94000D42E5 /* Operation.swift */; };
 		1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA43BD2224E569900F565CB /* AppDelegate.swift */; };
@@ -29,10 +29,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0B2ABAC0266BF741000071FF /* CountOnMe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountOnMe.swift; sourceTree = "<group>"; };
 		0B42CDB626698C0500A4D6AC /* CountOnMeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountOnMeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B42CDB826698C0600A4D6AC /* ExpressionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionTests.swift; sourceTree = "<group>"; };
 		0B42CDBA26698C0600A4D6AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0BD2B1612668E5F6000D42E5 /* Computer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Computer.swift; sourceTree = "<group>"; };
 		0BD2B16326694C16000D42E5 /* Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
 		0BD2B16526696E94000D42E5 /* Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
 		1FA43BCF224E569900F565CB /* CountOnMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CountOnMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,8 +76,8 @@
 			children = (
 				1FA43BD2224E569900F565CB /* AppDelegate.swift */,
 				0BD2B16326694C16000D42E5 /* Expression.swift */,
+				0B2ABAC0266BF741000071FF /* CountOnMe.swift */,
 				0BD2B16526696E94000D42E5 /* Operation.swift */,
-				0BD2B1612668E5F6000D42E5 /* Computer.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -261,7 +261,7 @@
 			files = (
 				1FA43BD5224E569900F565CB /* ViewController.swift in Sources */,
 				1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */,
-				0BD2B1622668E5F6000D42E5 /* Computer.swift in Sources */,
+				0B2ABAC1266BF741000071FF /* CountOnMe.swift in Sources */,
 				0BD2B16626696E94000D42E5 /* Operation.swift in Sources */,
 				0BD2B16426694C16000D42E5 /* Expression.swift in Sources */,
 			);

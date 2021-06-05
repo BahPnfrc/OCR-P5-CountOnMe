@@ -8,13 +8,6 @@
 
 import Foundation
 
-enum Operand: String, CaseIterable {
-    case addition = "+"
-    case substraction = "−"
-    case multiplication = "×"
-    case division = "÷"
-}
-
 struct Operation {
     var leftItem: Float
     var rightItem: Float
