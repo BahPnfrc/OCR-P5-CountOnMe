@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B2ABAC1266BF741000071FF /* CountOnMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2ABAC0266BF741000071FF /* CountOnMe.swift */; };
+		0B2ABAC1266BF741000071FF /* CountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2ABAC0266BF741000071FF /* CountModel.swift */; };
 		0B42CDB926698C0600A4D6AC /* ExpressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B42CDB826698C0600A4D6AC /* ExpressionTests.swift */; };
 		0BD2B16426694C16000D42E5 /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD2B16326694C16000D42E5 /* Expression.swift */; };
 		0BD2B16626696E94000D42E5 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD2B16526696E94000D42E5 /* Operation.swift */; };
 		1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA43BD2224E569900F565CB /* AppDelegate.swift */; };
-		1FA43BD5224E569900F565CB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA43BD4224E569900F565CB /* ViewController.swift */; };
+		1FA43BD5224E569900F565CB /* CountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA43BD4224E569900F565CB /* CountViewController.swift */; };
 		1FA43BD8224E569900F565CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BD6224E569900F565CB /* Main.storyboard */; };
 		1FA43BDA224E569A00F565CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BD9224E569A00F565CB /* Assets.xcassets */; };
 		1FA43BDD224E569A00F565CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */; };
@@ -29,7 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0B2ABAC0266BF741000071FF /* CountOnMe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountOnMe.swift; sourceTree = "<group>"; };
+		0B2ABAC0266BF741000071FF /* CountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountModel.swift; sourceTree = "<group>"; };
 		0B42CDB626698C0500A4D6AC /* CountOnMeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountOnMeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B42CDB826698C0600A4D6AC /* ExpressionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionTests.swift; sourceTree = "<group>"; };
 		0B42CDBA26698C0600A4D6AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -37,7 +37,7 @@
 		0BD2B16526696E94000D42E5 /* Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
 		1FA43BCF224E569900F565CB /* CountOnMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CountOnMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FA43BD2224E569900F565CB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1FA43BD4224E569900F565CB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1FA43BD4224E569900F565CB /* CountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountViewController.swift; sourceTree = "<group>"; };
 		1FA43BD7224E569900F565CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1FA43BD9224E569A00F565CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1FA43BDC224E569A00F565CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -76,7 +76,7 @@
 			children = (
 				1FA43BD2224E569900F565CB /* AppDelegate.swift */,
 				0BD2B16326694C16000D42E5 /* Expression.swift */,
-				0B2ABAC0266BF741000071FF /* CountOnMe.swift */,
+				0B2ABAC0266BF741000071FF /* CountModel.swift */,
 				0BD2B16526696E94000D42E5 /* Operation.swift */,
 			);
 			path = Model;
@@ -94,7 +94,7 @@
 		0BD2B15D266647A4000D42E5 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				1FA43BD4224E569900F565CB /* ViewController.swift */,
+				1FA43BD4224E569900F565CB /* CountViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -259,9 +259,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1FA43BD5224E569900F565CB /* ViewController.swift in Sources */,
+				1FA43BD5224E569900F565CB /* CountViewController.swift in Sources */,
 				1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */,
-				0B2ABAC1266BF741000071FF /* CountOnMe.swift in Sources */,
+				0B2ABAC1266BF741000071FF /* CountModel.swift in Sources */,
 				0BD2B16626696E94000D42E5 /* Operation.swift in Sources */,
 				0BD2B16426694C16000D42E5 /* Expression.swift in Sources */,
 			);

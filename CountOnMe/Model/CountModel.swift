@@ -27,9 +27,9 @@ enum Error: String {
     case divisionByZero = "Diviser par 0 est impossible"
 }
 
-class CountOnMe {
+class CountModel {
     
-    var delegate: DisplayDelegate?
+    private var delegate: DisplayDelegate?
     
     var input: String? {
         didSet { delegate?.displaySetInput(input ?? "") }
@@ -38,17 +38,17 @@ class CountOnMe {
         self.input = self.input ?? "" + text
     }
     
-    var inputExpression: Expression? {
+    private var inputExpression: Expression? {
         guard let input = self.input else { return nil }
         return Expression(of: input)
     }
-    var result: Float? {
+    private var result: Float? {
         didSet {
             guard let result = self.result else { return }
             self.output = "= \(result)"
         }
     }
-    var output: String? {
+    private var output: String? {
         didSet {
             delegate?.displaySetOutput(output ?? "")
         }
@@ -56,7 +56,12 @@ class CountOnMe {
     
     // MARK: - EXPRESSION
     
-    func expressionAddNumber(_ number: String?) {
+    func reset() {
+        input = nil
+        output = nil
+    }
+    
+    func addNumber(_ number: String?) {
         guard let numberAsString = number else {
             delegate?.displayShowError("BLABLA")
             return
@@ -68,7 +73,7 @@ class CountOnMe {
         inputAppend(numberAsString)
     }
     
-    func expressionAddOperand(_ operand: Operand) {
+    func addOperand(_ operand: Operand) {
         guard let expression = inputExpression else {
             delegate?.displayShowError("BLABLA")
             return
@@ -80,7 +85,7 @@ class CountOnMe {
         self.inputAppend(" \(operand.rawValue) ")
     }
     
-    func expressionGetResult() {
+    func getResult() {
         
         guard let expression = inputExpression else {
             delegate?.displayShowError("BLABLA")
@@ -114,7 +119,7 @@ class CountOnMe {
             
             // Get an expression and compute for its result
             let operation = Operation(leftItem, operand, rightItem)
-            let result = getResultOf(operation)
+            let result = result(of: operation)
             guard let number = result.Result
             else {
                 if let error = result.Error { delegate?.displayShowError(error.rawValue) }
@@ -135,7 +140,7 @@ class CountOnMe {
         self.result = result
     }
     
-    private func getResultOf(_ operation: Operation) -> (Result: Float?, Error: Error?) {
+    private func result(of operation: Operation) -> (Result: Float?, Error: Error?) {
         switch operation.operand {
         case Operand.addition: return (operation.leftItem + operation.rightItem, nil)
         case Operand.substraction: return (operation.leftItem - operation.rightItem, nil)
@@ -144,11 +149,6 @@ class CountOnMe {
             guard operation.rightItem != 0 else { return (nil, Error.divisionByZero) }
             return (operation.leftItem / operation.rightItem, nil)
         }
-    }
-        
-    func reset() {
-        input = nil
-        output = nil
     }
 
 }

@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  CountViewController.swift
 //  SimpleCalc
 //
 //  Created by Vincent Saluzzo on 29/03/2019.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CountViewController: UIViewController {
     
     // MARK: - @IBOUTLET
     
@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     
     // MARK: - PROPERTY
     
-   var countOnMe = CountOnMe()
+   var countModel = CountModel()
     
     // MARK: - CYCLE
     
@@ -44,45 +44,47 @@ class ViewController: UIViewController {
     
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         let numberText = sender.title(for: .normal)
-        countOnMe.expressionAddNumber(numberText)
+        countModel.addNumber(numberText)
     }
     
     // MARK: - @IBACTION : OPERAND
     
     @IBAction func tappedOperandAddition(_ sender: UIButton) {
-        countOnMe.expressionAddOperand(Operand.addition)
+        countModel.addOperand(Operand.addition)
     }
     
     @IBAction func tappedOperandSubstraction(_ sender: UIButton) {
-        countOnMe.expressionAddOperand(Operand.substraction)
+        countModel.addOperand(Operand.substraction)
     }
     
     @IBAction func tappedOperandMultiplication(_ sender: Any) {
-        countOnMe.expressionAddOperand(Operand.multiplication)
+        countModel.addOperand(Operand.multiplication)
     }
     
     @IBAction func tappedOperandDivision(_ sender: Any) {
-        countOnMe.expressionAddOperand(Operand.division)
+        countModel.addOperand(Operand.division)
     }
     
     // MARK: - @IBACTION : ELSE
 
     @IBAction func tappedResetButton(_ sender: Any) {
-        countOnMe.reset()
+        countModel.reset()
     }
     
     @IBAction func tappedEqualButton(_ sender: UIButton) {
-        countOnMe.expressionGetResult()
+        countModel.getResult()
     }
 }
 
-extension ViewController: DisplayDelegate {
+extension CountViewController: DisplayDelegate {
     func displaySetInput(_ input: String) {
         UIinput.text = input
+        view.layoutIfNeeded()
     }
     
     func displaySetOutput(_ output: String) {
         UIoutput.text = output
+        view.layoutIfNeeded()
     }
     
     func displayShowError(_ error: String) {
