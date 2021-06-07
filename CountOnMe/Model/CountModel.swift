@@ -9,9 +9,9 @@
 import Foundation
 
 protocol DisplayDelegate {
-    func displaySetInput(_ input: String)
-    func displaySetOutput(_ output: String)
-    func displayShowError(_ error: String)
+    func didChangeInput(_ input: String)
+    func didChangeOutput(_ output: String)
+    func didShowError(_ error: Error)
 }
 
 enum Operand: String, CaseIterable {
@@ -21,136 +21,146 @@ enum Operand: String, CaseIterable {
     case division = "÷"
 }
 
-enum Error: String {
-    case generic = "Une erreur est survenue"
-    case isInputDataType = ""
-    case divisionByZero = "Diviser par 0 est impossible"
+enum Error: String, CaseIterable {
+    case undefined = "Une erreur est survenue"
+    case whileComputing = "Une erreur intene est survenue"
+    case numberIsRequired = "L'expression requière un chiffre"
+    case expressionIsIncorrect = "L'expression est mal formatée"
+    case divisionIsIncorrect = "La division par zéro est impossible"
 }
 
 class CountModel {
     
-    private var delegate: DisplayDelegate?
+    var delegate: DisplayDelegate?
     
-    var input: String? {
-        didSet { delegate?.displaySetInput(input ?? "") }
-    }
-    private func inputAppend(_ text: String) {
-        self.input = self.input ?? "" + text
+    private var _input: String = "" {
+        didSet { delegate?.didChangeInput(_input) }
     }
     
-    private var inputExpression: Expression? {
-        guard let input = self.input else { return nil }
-        return Expression(of: input)
+    private var _inputToExpression: Expression? {
+        return Expression(of: _input)
     }
-    private var result: Float? {
+    
+    private var _result: Float? {
         didSet {
-            guard let result = self.result else { return }
-            self.output = "= \(result)"
-        }
-    }
-    private var output: String? {
-        didSet {
-            delegate?.displaySetOutput(output ?? "")
+            if let result = _result {
+                delegate?.didChangeOutput("= \(result)")
+            } else { delegate?.didChangeOutput("") }
         }
     }
     
     // MARK: - EXPRESSION
     
     func reset() {
-        input = nil
-        output = nil
+        _input = ""
+        _result = nil
     }
     
     func addNumber(_ number: String?) {
-        guard let numberAsString = number else {
-            delegate?.displayShowError("BLABLA")
-            return
+        // Ensure something is passed
+        guard let numberAsString = number
+        else { delegate?.didShowError(.undefined) ; return }
+        // Ensure it can be casted into a number
+        guard let numberAsInt = Int(numberAsString)
+        else { delegate?.didShowError(.numberIsRequired) ; return }
+        // Ensure it's not a division by zero
+        if numberAsInt == 0 {
+            guard _input.hasSuffix(Operand.division.rawValue)
+            else { delegate?.didShowError(.divisionIsIncorrect) ; return }
         }
-        guard Int(numberAsString) != nil else {
-            delegate?.displayShowError("BLABLA")
-            return
-        }
-        inputAppend(numberAsString)
+        self._input.append(numberAsString)
     }
     
     func addOperand(_ operand: Operand) {
-        guard let expression = inputExpression else {
-            delegate?.displayShowError("BLABLA")
+        guard let expression = _inputToExpression else {
+            delegate?.didShowError(.undefined)
             return
         }
-        guard expression.isCorrect else {
-            delegate?.displayShowError("BLABLA")
+        guard expression.elements.count > 0 &&
+                expression.lastElementIsNumber()
+        else {
+            delegate?.didShowError(.numberIsRequired)
             return
         }
-        self.inputAppend(" \(operand.rawValue) ")
+        guard expression.isWellFormated() else {
+            delegate?.didShowError(.expressionIsIncorrect)
+            return
+        }
+        
+        
+        self._input.append(" \(operand.rawValue) ")
     }
     
     func getResult() {
         
-        guard let expression = inputExpression else {
-            delegate?.displayShowError("BLABLA")
-            return
-        }
+        guard let expression = _inputToExpression
+        else { delegate?.didShowError(.undefined) ; return }
+        
+        guard expression.lastElementIsNumber()
+        else { delegate?.didShowError(.numberIsRequired) ; return }
         
         var elements = expression.elements
         while elements.count > 1 {
             
-            guard expression.isCorrect else {
-                delegate?.displayShowError("L'expression est mal formulée")
-                return
-            }
-            
-            // Get operand index according to priority
-            var operandIndex: Int
-            if let firstMultiplicationIndex = elements.firstIndex(of: Operand.multiplication.rawValue) {
-                operandIndex = firstMultiplicationIndex
-            } else if let firstDivisionIndex = elements.firstIndex(of: Operand.division.rawValue) {
-                operandIndex = firstDivisionIndex
-            } else { operandIndex = 1 }
-            
-            // Get left and right item from operand index
-            let operand = elements[operandIndex]
-            guard let leftItem = Float(elements[operandIndex - 1]),
-                  let rightItem = Float(elements[operandIndex + 1])
-            else {
-                delegate?.displayShowError(Error.generic.rawValue)
-                return
-            }
+            guard expression.isCorrect
+            else { delegate?.didShowError(.whileComputing) ; return }
             
             // Get an expression and compute for its result
-            let operation = Operation(leftItem, operand, rightItem)
-            let result = result(of: operation)
+            guard let operation = _returnNextOperation(from: elements)
+            else { delegate?.didShowError(.whileComputing) ; return }
+            
+            let result = _returnResult(of: operation)
             guard let number = result.Result
             else {
-                if let error = result.Error { delegate?.displayShowError(error.rawValue) }
-                else { delegate?.displayShowError(Error.generic.rawValue) }
+                if let error = result.Error { delegate?.didShowError(error) }
+                else { delegate?.didShowError(.whileComputing) }
                 return
             }
             
             // Replace current expression with its result
             let newValue = [String(number)]
-            let oldValues = operandIndex - 1...operandIndex + 1
+            guard let oldValues = operation.range
+            else { delegate?.didShowError(.whileComputing) ; return }
             elements.replaceSubrange(oldValues, with: newValue)
         }
 
-        guard let result = Float(elements.first!) else {
-            delegate?.displayShowError(Error.generic.rawValue)
-            return
-        }
-        self.result = result
+        guard let result = Float(elements.first!)
+        else { delegate?.didShowError(.whileComputing) ; return }
+        self._result = result
     }
     
-    private func result(of operation: Operation) -> (Result: Float?, Error: Error?) {
+    private func _returnNextOperation(from elements: [String]) -> Operation? {
+        // Get operand index according to priority
+        var operandIndex: Int
+        if let firstMultiplicationIndex = elements.firstIndex(of: Operand.multiplication.rawValue) {
+            operandIndex = firstMultiplicationIndex
+        } else if let firstDivisionIndex = elements.firstIndex(of: Operand.division.rawValue) {
+            operandIndex = firstDivisionIndex
+        } else { operandIndex = 1 }
+        
+        // Get left and right item from operand index
+        guard let operand = Operand.allCases.first(where: { $0.rawValue == elements[operandIndex] }),
+              let leftItem = Float(elements[operandIndex - 1]),
+              let rightItem = Float(elements[operandIndex + 1])
+        else { return nil }
+        var operation = Operation(leftItem, operand, rightItem)
+        operation.range = operandIndex - 1...operandIndex + 1
+        return operation
+    }
+    
+    private func _returnResult(of operation: Operation) -> (Result: Float?, Error: Error?) {
         switch operation.operand {
-        case Operand.addition: return (operation.leftItem + operation.rightItem, nil)
-        case Operand.substraction: return (operation.leftItem - operation.rightItem, nil)
-        case Operand.multiplication: return (operation.leftItem * operation.rightItem, nil)
+        case Operand.addition:
+            return (operation.leftItem + operation.rightItem, nil)
+        case Operand.substraction:
+            return (operation.leftItem - operation.rightItem, nil)
+        case Operand.multiplication:
+            return (operation.leftItem * operation.rightItem, nil)
         case Operand.division:
-            guard operation.rightItem != 0 else { return (nil, Error.divisionByZero) }
+            guard !operation.isDivisionByZero else { return (nil, Error.divisionIsIncorrect) }
             return (operation.leftItem / operation.rightItem, nil)
         }
     }
-
 }
 
 

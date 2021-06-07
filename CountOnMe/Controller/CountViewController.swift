@@ -31,6 +31,8 @@ class CountViewController: UIViewController {
         paint(UIdisplay as Any)
         for button in UInumberButtons { paint(button) }
         for button in UIoperationButtons { paint(button)}
+        
+        countModel.delegate = self
     }
     
     func paint(_ anyItem: Any) {
@@ -77,18 +79,17 @@ class CountViewController: UIViewController {
 }
 
 extension CountViewController: DisplayDelegate {
-    func displaySetInput(_ input: String) {
+    func didChangeInput(_ input: String) {
         UIinput.text = input
-        view.layoutIfNeeded()
     }
     
-    func displaySetOutput(_ output: String) {
+    func didChangeOutput(_ output: String) {
+        UIoutput.isHidden = output.isEmpty
         UIoutput.text = output
-        view.layoutIfNeeded()
     }
     
-    func displayShowError(_ error: String) {
-        let alertVC = UIAlertController(title: "Erreur", message: error, preferredStyle: .alert)
+    func didShowError(_ error: Error) {
+        let alertVC = UIAlertController(title: "Erreur", message: error.rawValue, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         self.present(alertVC, animated: true, completion: nil)
     }

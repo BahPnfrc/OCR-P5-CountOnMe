@@ -75,9 +75,9 @@
 			isa = PBXGroup;
 			children = (
 				1FA43BD2224E569900F565CB /* AppDelegate.swift */,
+				0BD2B16526696E94000D42E5 /* Operation.swift */,
 				0BD2B16326694C16000D42E5 /* Expression.swift */,
 				0B2ABAC0266BF741000071FF /* CountModel.swift */,
-				0BD2B16526696E94000D42E5 /* Operation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";

@@ -10,7 +10,7 @@ import Foundation
 
 class Expression {
     
-    // MARK: - Properties
+    // MARK: - PROPERTIES
     
     private var rawExpression: String
     
@@ -29,7 +29,7 @@ class Expression {
             && lastElementIsNumber()
     }
     
-    // MARK: - Functions
+    // MARK: - FUNCTIONS
     
     func isSingleNumber() -> Bool {
         return self.elements.count == 1 && Float(elements[0]) != nil
@@ -68,6 +68,8 @@ class Expression {
         return !lastElementIsOperand()
     }
 }
+
+// MARK: - EXTENSION
 
 extension Int {
     var isEven: Bool {

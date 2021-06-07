@@ -12,12 +12,16 @@ struct Operation {
     var leftItem: Float
     var rightItem: Float
     var operand: Operand
+    var isDivisionByZero: Bool
     
-    init(_ leftItem: Float, _ operand: String, _ rightItem: Float) {
-        guard let operand = Operand.allCases.first(where: { $0.rawValue == operand })
-        else { fatalError("Fatal error while parsing for operand") }
+    var range: ClosedRange<Int>?
+    
+    init(_ leftItem: Float, _ operand: Operand, _ rightItem: Float) {
         self.leftItem = leftItem
         self.rightItem = rightItem
         self.operand = operand
+        self.isDivisionByZero =
+            operand == .division
+            && rightItem == 0
     }
 }
