@@ -13,9 +13,9 @@ struct Operation {
     var rightItem: Float
     var operand: Operand
     var isDivisionByZero: Bool
-    
+
     var range: ClosedRange<Int>?
-    
+
     init(_ leftItem: Float, _ operand: Operand, _ rightItem: Float) {
         self.leftItem = leftItem
         self.rightItem = rightItem

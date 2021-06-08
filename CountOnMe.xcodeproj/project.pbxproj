@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0B2ABAC1266BF741000071FF /* CountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2ABAC0266BF741000071FF /* CountModel.swift */; };
+		0B2ABAC5266E4086000071FF /* CountModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2ABAC4266E4086000071FF /* CountModelTests.swift */; };
 		0B42CDB926698C0600A4D6AC /* ExpressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B42CDB826698C0600A4D6AC /* ExpressionTests.swift */; };
 		0BD2B16426694C16000D42E5 /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD2B16326694C16000D42E5 /* Expression.swift */; };
 		0BD2B16626696E94000D42E5 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD2B16526696E94000D42E5 /* Operation.swift */; };
@@ -30,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		0B2ABAC0266BF741000071FF /* CountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountModel.swift; sourceTree = "<group>"; };
+		0B2ABAC4266E4086000071FF /* CountModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountModelTests.swift; sourceTree = "<group>"; };
 		0B42CDB626698C0500A4D6AC /* CountOnMeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountOnMeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B42CDB826698C0600A4D6AC /* ExpressionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionTests.swift; sourceTree = "<group>"; };
 		0B42CDBA26698C0600A4D6AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -65,8 +67,9 @@
 		0B42CDB726698C0600A4D6AC /* CountOnMeTests */ = {
 			isa = PBXGroup;
 			children = (
-				0B42CDB826698C0600A4D6AC /* ExpressionTests.swift */,
 				0B42CDBA26698C0600A4D6AC /* Info.plist */,
+				0B42CDB826698C0600A4D6AC /* ExpressionTests.swift */,
+				0B2ABAC4266E4086000071FF /* CountModelTests.swift */,
 			);
 			path = CountOnMeTests;
 			sourceTree = "<group>";
@@ -157,7 +160,6 @@
 				1FA43BCB224E569900F565CB /* Sources */,
 				1FA43BCC224E569900F565CB /* Frameworks */,
 				1FA43BCD224E569900F565CB /* Resources */,
-				0BD2B1602668DC00000D42E5 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -226,32 +228,13 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		0BD2B1602668DC00000D42E5 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		0B42CDB226698C0500A4D6AC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				0B42CDB926698C0600A4D6AC /* ExpressionTests.swift in Sources */,
+				0B2ABAC5266E4086000071FF /* CountModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
