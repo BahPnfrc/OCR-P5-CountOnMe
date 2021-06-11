@@ -16,12 +16,14 @@ struct Operation {
 
     var range: ClosedRange<Int>?
 
-    init(_ leftItem: Float, _ operand: Operand, _ rightItem: Float) {
+    init(_ leftItem: Float, _ operand: Operand, _ rightItem: Float,
+         _ range: ClosedRange<Int>? = nil) {
         self.leftItem = leftItem
         self.rightItem = rightItem
         self.operand = operand
         self.isDivisionByZero =
             operand == .division
             && rightItem == 0
+        self.range = range
     }
 }

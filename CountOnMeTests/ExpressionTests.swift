@@ -11,9 +11,8 @@ import XCTest
 
 class ExpressionTests: XCTestCase {
 
-    let numberDataSet: [Int] = Array(-99...99)
-    let operandDataSet: [Operand] = Operand.allCases
-
+    // MARK: - ODD AND EVEN TEST
+    
     func testGivenAllNumbersInRange_whenNumbersAreDividedByTwo_thenTheyAreEvenOrOdd() {
 
         for number in 0...100 {
@@ -28,6 +27,8 @@ class ExpressionTests: XCTestCase {
         XCTAssertTrue(true)
     }
 
+    // MARK: - SINGLE NUMBER TEST
+    
     func testGivenExpressionIsNil_whenCheckedForSingleNumber_thenFalseIsReturned() {
         let dataSet = ""
         let expression = Expression(of: dataSet)
@@ -51,13 +52,22 @@ class ExpressionTests: XCTestCase {
         let expression = Expression(of: dataSet)
         XCTAssertFalse(expression.isSingleNumber())
     }
+    
+    // MARK: - GLOBAL TEST
+    
+    let numberRange: ClosedRange<Int> = 1...999
+    var randomNumber: Int { Int.random(in: numberRange) }
+    var randomNumberAsString: String { String(randomNumber) }
+
+    let allOperand: [Operand] = Operand.allCases
+    var randomOperand: Operand { allOperand.randomElement()! }
 
     func testGivenRandomExpression_whenGlobalTestIsRun_thenExpressionIsCorrect() {
-
-        var expressionDataSet = String(numberDataSet.randomElement()!)
+        
+        var expressionDataSet = randomNumberAsString
         for _ in 1...9 {
-            expressionDataSet.append(" \(operandDataSet.randomElement()!.rawValue) ")
-            expressionDataSet.append("\(numberDataSet.randomElement()!)")
+            expressionDataSet.append(" \(randomOperand.rawValue) ")
+            expressionDataSet.append("\(randomNumberAsString)")
         }
 
         let expression = Expression(of: expressionDataSet)

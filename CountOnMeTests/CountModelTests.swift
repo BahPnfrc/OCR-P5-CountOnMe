@@ -17,8 +17,8 @@ class CountModelTests: XCTestCase {
     var expressionIsWellFormated: Bool { expression?.isWellFormated() ?? false }
     var elements: [String]? { expression?.elements }
 
-    let intDataSet: ClosedRange<Int> = 1...999
-    var randomNumber: Int { Int.random(in: intDataSet) }
+    let numberRange: ClosedRange<Int> = 1...999
+    var randomNumber: Int { Int.random(in: numberRange) }
     var randomNumberAsString: String { String(randomNumber) }
 
     let allOperand: [Operand] = Operand.allCases
@@ -27,9 +27,10 @@ class CountModelTests: XCTestCase {
     override func setUp() {
         super.setUp()
         self.countModel = CountModel()
+        countModel.guardPrint = true
     }
 
-    // MARK: - CHECK ADD NUMBER
+    // MARK: - ADD NUMBER TEST
 
     func testGivenAnExpression_whenAddingNilOrTextAsNumber_thenErrorAndCountMustRemain0() {
         countModel.addNumber(nil)
@@ -37,11 +38,11 @@ class CountModelTests: XCTestCase {
         XCTAssertTrue(elements?.count == 0)
     }
 
-    // MARK: - CHECK ADD OPERAND
+    // MARK: - ADD OPERAND TEST
 
     // Empty
 
-    // MARK: - CHECK ADD LEFT ITEM
+    // MARK: - ADD LEFT ITEM TEST
 
     func testGivenCountIs0_whenAddingOperand_thenErrorAndCountMustRemain0() {
         guard elements?.count == 0 else { XCTFail("Given check failed") ; return }
@@ -55,7 +56,7 @@ class CountModelTests: XCTestCase {
         XCTAssertTrue(elements?.count == 1 && expressionIsCorrect)
     }
 
-    // MARK: - CHECK ADD OPERAND ITEM
+    // MARK: - ADD OPERAND ITEM TEST
 
     func testGivenCountIs1_whenAddingOperand_thenCountMustBe2() {
         countModel.addNumber(randomNumberAsString)
@@ -71,7 +72,7 @@ class CountModelTests: XCTestCase {
         XCTAssertTrue(elements?.count == 1 && expressionIsCorrect)
     }
 
-    // MARK: - CHECK ADD RIGHT ITEM
+    // MARK: - ADD RIGHT ITEM TEST
 
     func testGivenCountIs2_whenAddingOperand_thenErrorAndCountMustRemain2() {
         countModel.addNumber(randomNumberAsString)
@@ -97,7 +98,7 @@ class CountModelTests: XCTestCase {
         XCTAssertTrue(expression?.elements.count == 2 && expressionIsWellFormated)
     }
 
-    // MARK: - CHECK PRIORITY
+    // MARK: - PRIORITY TEST
 
     func testGivenAnExpression_whenMultiplicationOcccurs_thenMultiplicationIsComputedFirst() {
 
@@ -141,7 +142,7 @@ class CountModelTests: XCTestCase {
         XCTAssertEqual(modelResult, localResult)
     }
 
-    // MARK: - CHECK DIVISION BY 0
+    // MARK: - DIVISION BY ZERO TEST
 
     func testGivenAnExpression_whenDivisionByZeroIsTried_thenErrorIsThrownAndResultIsNil() {
         let zero: Int = 0
@@ -163,7 +164,7 @@ class CountModelTests: XCTestCase {
         XCTAssertNotNil(countModel.result)
     }
 
-    // MARK: - CHECK RESET
+    // MARK: - RESET TEST
 
     func testGivenAnExpression_whenResetIsUsed_thenErrorIsNotThrownAndResultIsNotNil() {
         countModel.addNumber(randomNumberAsString)

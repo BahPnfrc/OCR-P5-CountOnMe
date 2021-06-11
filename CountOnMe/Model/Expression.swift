@@ -29,7 +29,7 @@ class Expression {
             && lastElementIsNumber()
     }
 
-    // MARK: - FUNCTIONS
+    // MARK: - CHECK FUNCTIONS
 
     func isSingleNumber() -> Bool {
         return self.elements.count == 1 && Float(elements[0]) != nil
