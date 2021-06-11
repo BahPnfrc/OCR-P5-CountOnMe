@@ -27,7 +27,6 @@ class CountModelTests: XCTestCase {
     override func setUp() {
         super.setUp()
         self.countModel = CountModel()
-        countModel.guardPrint = true
     }
 
     // MARK: - ADD NUMBER TEST
@@ -164,6 +163,37 @@ class CountModelTests: XCTestCase {
         XCTAssertNotNil(countModel.result)
     }
 
+    // MARK: - GET RESULT TEST
+    
+    func testGivenAnExpression_whenElementCountIs1WithOperand_thenGuardFailAndResultIsNil() {
+        countModel.addOperand(randomOperand)
+        countModel.getResult()
+        XCTAssertNil(countModel.result)
+    }
+    
+    func testGivenAnExpression_whenElementCountIs1WithNumber_thenResultIsNotNil() {
+        let randomNumber = randomNumberAsString
+        countModel.addNumber(randomNumber)
+        countModel.getResult()
+        XCTAssertEqual(Float(randomNumber), countModel.result)
+    }
+    
+    func testGivenAnExpression_whenLastElementIsNotNumber_thenGuardFailAndResultIsNil() {
+        countModel.addNumber(randomNumberAsString)
+        countModel.addOperand(randomOperand)
+        countModel.getResult()
+        XCTAssertNil(countModel.result)
+    }
+    
+    func testGivenAnExpression_whenExpressionIsNotCorrect_thenGuardFailAndResultIsNil() {
+        countModel.addNumber(randomNumberAsString)
+        countModel.addOperand(randomOperand)
+        countModel.addNumber(randomNumberAsString)
+        countModel.input.append(randomOperand.rawValue)
+        countModel.getResult()
+        XCTAssertNil(countModel.result)
+    }
+    
     // MARK: - RESET TEST
 
     func testGivenAnExpression_whenResetIsUsed_thenErrorIsNotThrownAndResultIsNotNil() {
