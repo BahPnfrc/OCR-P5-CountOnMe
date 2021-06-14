@@ -73,14 +73,3 @@ class Expression {
         return !lastElementIsOperand()
     }
 }
-
-// MARK: - EXTENSION
-
-extension Int {
-    var isEven: Bool {
-        return abs(self) % 2 == 0
-    }
-    var isOdd: Bool {
-        return abs(self) % 2 == 1
-    }
-}
